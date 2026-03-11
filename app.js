@@ -7,10 +7,11 @@ console.log('--- VERSION 3.8 - DASHBOARD FIXES ---');
 // Format Date to short local time (e.g. HH:MM)
 function formatTime(isoString) {
     if (!isoString) return "--:--";
-    // Force UTC interpretation if 'Z' is missing to ensure correct local offset
     const timeStr = isoString.endsWith('Z') ? isoString : isoString + 'Z';
     const d = new Date(timeStr);
-    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const datePart = d.toLocaleDateString([], { month: '2-digit', day: '2-digit' });
+    const timePart = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `${datePart} ${timePart}`;
 }
 
 const UPDATE_INTERVAL = 15000;
