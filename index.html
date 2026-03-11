@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCrypto v2 | Professional Trading Intelligence</title>
+    <!-- Favicon inline para evitar error 404 -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="logo">MCRYPTO <span class="v2-badge">v2</span></div>
+        <div id="user-profile" class="user-profile" style="display: none;">
+            <span id="user-display">usuario@ejemplo.com</span>
+            <button id="btn-logout" class="btn-logout">Cerrar Sesión</button>
+        </div>
+        <div class="status-indicators">
+            <div id="system-health-icon" class="status-icon" title="Estado del Sistema (Click para detalles)"></div>
+            <div id="connection-status" class="status-item">
+                <span class="dot"></span> Backend: <span class="status-text">Conectando...</span>
+            </div>
+            <div id="system-state" class="status-item">
+                <span class="dot"></span> Estado: <span class="status-text">Cargando...</span>
+            </div>
+        </div>
+    </nav>
+
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Loading Guard -->
+    <div id="loading-guard" class="loading-guard">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Verificando sesión...</p>
+        </div>
+    </div>
+
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <h1 class="logo">MCRYPTO <span class="v2-badge">v2</span></h1>
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active">Iniciar Sesión</button>
+                <button id="tab-register" class="auth-tab">Registrarse</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label>Usuario / Email</label>
+                    <input type="text" id="login-username" placeholder="Tu usuario" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-emerald w-full">Entrar al Terminal</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Usuario / Email</label>
+                    <input type="text" id="register-username" placeholder="Crea tu usuario" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="register-password" placeholder="Mínimo 8 caracteres" required>
+                </div>
+                <button type="submit" class="btn btn-accent w-full">Crear Cuenta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Manual Container -->
+    <div id="manual-container" class="manual-container" style="display: none;">
+        <div class="manual-card">
+            <h1>Manual del Operador Antigravity</h1>
+            <div class="manual-content">
+                <section>
+                    <h3>¿Qué hace el bot?</h3>
+                    <p>Antigravity es un motor de trading inteligente que utiliza modelos de Machine Learning para
+                        detectar regímenes de mercado y ejecutar estrategias de DCA (Dollar Cost Averaging) con gestión
+                        de riesgo institucional.</p>
+                </section>
+                <section>
+                    <h3>¿Cómo usarlo?</h3>
+                    <p>1. Inicia el bot con el botón START.<br>2. Monitorea la Exposición Global (ER).<br>3. Usa el
+                        Emergency Kill si detectas anomalías críticas.</p>
+                </section>
+                <section>
+                    <h3>Reglas Importantes</h3>
+                    <p>El sistema tiene un límite rígido de 20 niveles de DCA y un Hard Cap de riesgo del 30% (GEC). El
+                        bot dejará de comprar si se alcanzan estos límites para proteger tu capital.</p>
+                </section>
+                <section class="disclaimer">
+                    <h3>Descargo de Riesgo</h3>
+                    <p>El trading de criptomonedas conlleva un riesgo significativo. El rendimiento pasado no garantiza
+                        resultados futuros. Usted acepta toda la responsabilidad por las pérdidas incurridas al usar
+                        este software.</p>
+                </section>
+            </div>
+            <button id="btn-accept-manual" class="btn btn-emerald w-full">Cerrar Manual</button>
+        </div>
+    </div>
+
+    <main id="dashboard-content" class="dashboard-grid" style="display: none;">
+        <!-- Capital Overview -->
+        <section class="card stats-overview" id="equity-section">
+            <h2>Resumen de Capital</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Equity Estimada</label>
+                    <div id="equity-value" class="value">--- USDT</div>
+                </div>
+                <div id="daily-pnl-container" class="stat-item">
+                    <label>PnL Diario</label>
+                    <div id="daily-pnl" class="value">---</div>
+                </div>
+                <div class="stat-item">
+                    <label>Drawdown Actual</label>
+                    <div id="current-drawdown" class="value">---%</div>
+                </div>
+                <div class="stat-item">
+                    <label>Efectivo (USDT)</label>
+                    <div id="usdt-balance" class="value">---</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk & Governance -->
+        <section class="card risk-governance" id="risk-section">
+            <h2>Gobernanza de Riesgo</h2>
+            <div id="risk-governor-display" class="risk-display">
+                <div class="risk-mode" id="gov-mode">NORMAL</div>
+                <div class="exposure-bar-container">
+                    <label>Exposición Global (ER)</label>
+                    <div class="progress-bg">
+                        <div id="er-bar" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div id="risk-details" class="details-list">
+                    <!-- Dynamic details -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Market -->
+        <section class="card active-trading" id="market-section">
+            <h2>Mercado Activo (ETH/USDT)</h2>
+            <div class="market-hero">
+                <div id="eth-price" class="hero-price">$0.00</div>
+                <div id="market-regime" class="regime-tag">---</div>
+            </div>
+            <div class="ml-insights">
+                <h3>ML Insights</h3>
+                <div class="ml-grid">
+                    <div class="ml-item">
+                        <label>Confianza</label>
+                        <div id="ml-confidence" class="ml-val">---</div>
+                    </div>
+                    <div class="ml-item">
+                        <label>SHS</label>
+                        <div id="shs-score" class="ml-val">---</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Panel -->
+        <section class="card control-panel" id="control-section">
+            <h2>Panel de Control</h2>
+            <div class="control-grid">
+                <button id="btn-start" class="btn btn-emerald">START BOT</button>
+                <button id="btn-stop" class="btn btn-slate">STOP BOT</button>
+                <button id="btn-kill" class="btn btn-danger">EMERGENCY KILL</button>
+                <button id="btn-reset-manual" class="btn btn-slate btn-sm">Ver Manual</button>
+            </div>
+            <div class="mode-toggle">
+                <label>Modo de Operación</label>
+                <div class="toggle-group">
+                    <button id="mode-normal" class="btn-toggle active">Normal</button>
+                    <button id="mode-conservative" class="btn-toggle">Conservador</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="card activity-log" id="activity-section">
+            <h2>Actividad Reciente</h2>
+            <div id="trades-list" class="scroll-container">
+                <p class="placeholder-text">Esperando datos de ejecución...</p>
+            </div>
+        </section>
+
+        <!-- Navigation Sidebar (Dashboard Internal) -->
+        <aside class="sidebar-nav card">
+            <h2>Navegación</h2>
+            <ul class="nav-list">
+                <li><button class="nav-link active" onclick="ui.navigate('dashboard')">🏠 Dashboard</button></li>
+                <li><button class="nav-link" id="nav-manual">📖 Manual</button></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer class="system-footer">
+        <p>MCrypto Trading Engine • Etapa 3 <span id="last-update">---</span> • V.2.0</p>
+    </footer>
+
+    <script src="./auth.js?v=3.7"></script>
+    <script src="./api.js?v=3.7"></script>
+    <script src="./app.js?v=3.7"></script>
+</body>
+
+</html>
