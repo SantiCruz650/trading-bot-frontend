@@ -200,6 +200,7 @@ const els = {
     btnStart: document.querySelector('#btn-start'),
     btnStop: document.querySelector('#btn-stop'),
     btnKill: document.querySelector('#btn-kill'),
+    btnUnlock: document.querySelector('#btn-unlock'),
     btnLogout: document.querySelector('#btn-logout'),
     btnAcceptManual: document.querySelector('#btn-accept-manual'),
     navManual: document.querySelector('#nav-manual'),
@@ -466,6 +467,7 @@ async function sendAction(endpoint, method = "POST", body = null) {
 els.btnStart && els.btnStart.addEventListener('click', () => sendAction("/trading/start"));
 els.btnStop && els.btnStop.addEventListener('click', () => sendAction("/trading/stop"));
 els.btnKill && els.btnKill.addEventListener('click', () => sendAction("/trading/kill"));
+els.btnUnlock && els.btnUnlock.addEventListener('click', () => sendAction("/trading/unlock"));
 
 // Nav Manual: just shows the manual overlay, doesn't restart the app
 els.navManual && els.navManual.addEventListener('click', () => navigate('manual'));
