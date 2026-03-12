@@ -206,7 +206,9 @@ const els = {
     btnAcceptManual: document.querySelector('#btn-accept-manual'),
     navManual: document.querySelector('#nav-manual'),
     btnResetManual: document.querySelector('#btn-reset-manual'),
-    healthIcon: document.querySelector('#system-health-icon')
+    healthIcon: document.querySelector('#system-health-icon'),
+    modeNormal: document.querySelector('#mode-normal'),
+    modeConservative: document.querySelector('#mode-conservative')
 };
 
 // 7. DATA PIPELINE
@@ -259,6 +261,7 @@ async function refreshData() {
             drawdown: data.balance.stats?.daily_drawdown || 0,
             pnl: data.balance.stats?.pnl || 0,
             govMode: data.balance.stats?.gec_state || "NORMAL",
+            riskProfile: data.balance.stats?.risk_profile || "NORMAL",
             er: data.balance.stats?.exposure || 0,
             executions: (executions || []).slice(0, 10)
         });
@@ -317,6 +320,16 @@ function updateUI(data) {
     if (els.erBar) {
         els.erBar.style.width = `${Math.min(100, data.er * 100)}%`;
         els.erBar.style.background = data.er > 0.8 ? 'var(--danger)' : data.er > 0.6 ? 'var(--warning)' : 'var(--accent)';
+    }
+
+    if (els.modeNormal && els.modeConservative) {
+        if (data.riskProfile === "CONSERVATIVE") {
+            els.modeConservative.classList.add('active');
+            els.modeNormal.classList.remove('active');
+        } else {
+            els.modeNormal.classList.add('active');
+            els.modeConservative.classList.remove('active');
+        }
     }
     renderTrades(data.executions);
 }
@@ -469,6 +482,23 @@ els.btnStart && els.btnStart.addEventListener('click', () => sendAction("/tradin
 els.btnStop && els.btnStop.addEventListener('click', () => sendAction("/trading/stop"));
 els.btnKill && els.btnKill.addEventListener('click', () => sendAction("/trading/kill"));
 els.btnUnlock && els.btnUnlock.addEventListener('click', () => sendAction("/trading/unlock"));
+
+async function setRiskProfile(profile) {
+    try {
+        const data = await api.request("/trading/risk-profile", {
+            method: "POST",
+            body: JSON.stringify({ profile })
+        });
+        if (data && data.authenticated === false) return;
+        showNotification(data.message || "Perfil actualizado", "success");
+        refreshData();
+    } catch (err) {
+        showNotification(err.message, "error");
+    }
+}
+
+els.modeNormal && els.modeNormal.addEventListener('click', () => setRiskProfile("NORMAL"));
+els.modeConservative && els.modeConservative.addEventListener('click', () => setRiskProfile("CONSERVATIVE"));
 
 // Nav Manual: just shows the manual overlay, doesn't restart the app
 els.navManual && els.navManual.addEventListener('click', () => navigate('manual'));

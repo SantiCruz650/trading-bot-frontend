@@ -84,32 +84,57 @@
     <!-- Manual Container -->
     <div id="manual-container" class="manual-container" style="display: none;">
         <div class="manual-card">
-            <h1>Manual del Operador Antigravity</h1>
+            <h1>Manual del Operador MCrypto</h1>
             <div class="manual-content">
                 <section>
-                    <h3>¿Qué hace el bot?</h3>
-                    <p>Antigravity es un motor de trading inteligente que utiliza modelos de Machine Learning para
-                        detectar regímenes de mercado y ejecutar estrategias de DCA (Dollar Cost Averaging) con gestión
-                        de riesgo institucional.</p>
+                    <h3>📈 Misión del Sistema</h3>
+                    <p>MCrypto es un motor de trading institucional diseñado para capturar movimientos de mercado
+                        mediante Machine Learning y estrategias de DCA inteligente. Su prioridad absoluta es la
+                        <strong>preservación del capital</strong>.</p>
                 </section>
+
                 <section>
-                    <h3>¿Cómo usarlo?</h3>
-                    <p>1. Inicia el bot con el botón START.<br>2. Monitorea la Exposición Global (ER).<br>3. Usa el
-                        Emergency Kill si detectas anomalías críticas.</p>
+                    <h3>🛡️ Gobernanza de Riesgo (GEC)</h3>
+                    <p>Es el "cerebro de seguridad". Monitorea la <strong>Exposición Global (ER)</strong>, que es cuánto
+                        dinero tienes en juego frente a tu capital total.</p>
+                    <ul>
+                        <li><strong>NORMAL</strong>: El bot opera según la estrategia ML.</li>
+                        <li><strong>SOFT_CAP</strong>: Se alcanzó el 20% de exposición. El bot reduce el tamaño de nuevas
+                            compras.</li>
+                        <li><strong>HARD_CAP</strong>: Se alcanzó el 30% de exposición. Se prohíben nuevas compras de
+                            apertura; solo se permiten cierres.</li>
+                        <li><strong>KILL_SWITCH</strong>: Bloqueo de emergencia activado por pérdidas consecutivas o
+                            caída crítica del capital (Drawdown).</li>
+                    </ul>
                 </section>
+
                 <section>
-                    <h3>Reglas Importantes</h3>
-                    <p>El sistema tiene un límite rígido de 20 niveles de DCA y un Hard Cap de riesgo del 30% (GEC). El
-                        bot dejará de comprar si se alcanzan estos límites para proteger tu capital.</p>
+                    <h3>🕹️ Panel de Control</h3>
+                    <ul>
+                        <li><strong>START</strong>: Activa el ciclo de lectura del mercado y ejecución de ML.</li>
+                        <li><strong>STOP</strong>: Pausa el bot de forma ordenada. No cierra posiciones abiertas.</li>
+                        <li><strong>EMERGENCY KILL</strong>: Detiene el bot inmediatamente y activa el bloqueo de
+                            seguridad.</li>
+                        <li><strong>UNLOCK</strong>: Úsalo para resetear el sistema tras un bloqueo de seguridad.</li>
+                    </ul>
                 </section>
+
+                <section>
+                    <h3>⚖️ Modos de Riesgo</h3>
+                    <ul>
+                        <li><strong>NORMAL</strong>: Configuración estándar (30% de exposición máxima).</li>
+                        <li><strong>CONSERVADOR</strong>: Reduce a la mitad los límites de exposición (15% máximo).
+                            Ideal para mercados altamente volátiles.</li>
+                    </ul>
+                </section>
+
                 <section class="disclaimer">
-                    <h3>Descargo de Riesgo</h3>
-                    <p>El trading de criptomonedas conlleva un riesgo significativo. El rendimiento pasado no garantiza
-                        resultados futuros. Usted acepta toda la responsabilidad por las pérdidas incurridas al usar
-                        este software.</p>
+                    <h3>⚠️ Descargo de Responsabilidad</h3>
+                    <p>El trading implica riesgo de pérdida total. Use MCrypto bajo su propia responsabilidad. El modo
+                        MOCK no garantiza resultados en LIVE.</p>
                 </section>
             </div>
-            <button id="btn-accept-manual" class="btn btn-emerald w-full">Cerrar Manual</button>
+            <button id="btn-accept-manual" class="btn btn-emerald w-full">Entrar al Terminal</button>
         </div>
     </div>
 
