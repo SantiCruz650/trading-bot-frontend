@@ -27,6 +27,9 @@
             <div id="connection-status" class="status-item">
                 <span class="dot"></span> Bot: <span class="status-text">Conectando...</span>
             </div>
+            <div id="system-state" class="status-item">
+                <span class="dot"></span> Estado: <span class="status-text">Cargando...</span>
+            </div>
         </div>
     </nav>
 
@@ -135,9 +138,8 @@
     </div>
 
     <main id="dashboard-content" class="dashboard-grid" style="display: none;">
-        <!-- Capital Overview -->
+        <!-- TOP ROW: Stats Overview (Full Width) -->
         <section class="card stats-overview" id="equity-section">
-            <h2>Resumen de Capital</h2>
             <div class="stats-grid">
                 <div class="stat-item">
                     <label>Equity Estimada</label>
@@ -149,86 +151,91 @@
                 </div>
                 <div class="stat-item">
                     <label>Drawdown Actual</label>
-                    <div id="current-drawdown" class="value">---%</div>
+                    <div id="current-drawdown" class="value negative">---%</div>
                 </div>
                 <div class="stat-item">
-                    <label>Efectivo (USDT)</label>
+                    <label>Efectivo Disponible</label>
                     <div id="usdt-balance" class="value">---</div>
                 </div>
             </div>
         </section>
 
-        <!-- Risk & Governance -->
-        <section class="card risk-governance" id="risk-section">
-            <h2>Gobernanza de Riesgo</h2>
-            <div id="risk-governor-display" class="risk-display">
-                <div class="risk-mode" id="gov-mode">NORMAL</div>
-                <div class="exposure-bar-container">
-                    <label>Exposición Global (ER)</label>
-                    <div class="progress-bg">
-                        <div id="er-bar" class="progress-fill"></div>
+        <!-- MIDDLE ROW: Market (Left) & Risk (Right) -->
+        <div class="middle-row">
+            <!-- Market Hero -->
+            <section class="card market-hero-card" id="market-section">
+                <div class="market-header">
+                    <h2>MERCADO EN VIVO (ETH/USDT)</h2>
+                    <div id="market-regime" class="regime-tag">---</div>
+                </div>
+                <div id="eth-price" class="hero-price">$--,---.--</div>
+                <div class="ml-insights-bar">
+                    <div class="insight-pill">
+                        <span class="label">Confianza:</span>
+                        <span id="ml-confidence" class="val">---</span>
+                    </div>
+                    <div class="insight-pill">
+                        <span class="label">SHS Score:</span>
+                        <span id="shs-score" class="val">---</span>
                     </div>
                 </div>
-                <div id="risk-details" class="details-list">
-                    <!-- Dynamic details -->
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Active Market -->
-        <section class="card active-trading" id="market-section">
-            <h2>Mercado Activo (ETH/USDT)</h2>
-            <div class="market-hero">
-                <div id="eth-price" class="hero-price">$0.00</div>
-                <div id="market-regime" class="regime-tag">---</div>
-            </div>
-            <div class="ml-insights">
-                <h3>ML Insights</h3>
-                <div class="ml-grid">
-                    <div class="ml-item">
-                        <label>Confianza</label>
-                        <div id="ml-confidence" class="ml-val">---</div>
+            <!-- Risk Governance -->
+            <section class="card risk-governance-card" id="risk-section">
+                <h2>GOBERNANZA DE RIESGO</h2>
+                <div id="risk-governor-display" class="risk-display-v2">
+                    <div class="risk-status-group">
+                        <div class="status-label">Estado GEC</div>
+                        <div class="risk-mode-v2" id="gov-mode">NORMAL</div>
                     </div>
-                    <div class="ml-item">
-                        <label>SHS</label>
-                        <div id="shs-score" class="ml-val">---</div>
+                    <div class="exposure-group">
+                        <div class="label-row">
+                            <span>Exposición Global (ER)</span>
+                            <span id="er-percentage">0%</span>
+                        </div>
+                        <div class="progress-bg-v2">
+                            <div id="er-bar" class="progress-fill-v2"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <!-- Control Panel -->
-        <section class="card control-panel" id="control-section">
-            <h2>Panel de Control</h2>
-            <div class="control-grid">
-                <button id="btn-start" class="btn btn-emerald">START BOT</button>
-                <button id="btn-stop" class="btn btn-slate">STOP BOT</button>
-                <button id="btn-kill" class="btn btn-danger">EMERGENCY KILL</button>
-                <button id="btn-unlock" class="btn btn-warning">UNLOCK BOT</button>
-                <button id="btn-reset-manual" class="btn btn-slate btn-sm">Ver Manual</button>
-            </div>
-            <div class="mode-toggle">
-                <label>Modo de Operación</label>
-                <div class="toggle-group">
-                    <button id="mode-normal" class="btn-toggle active">Normal</button>
-                    <button id="mode-conservative" class="btn-toggle">Conservador</button>
+        <!-- BOTTOM ROW: Controls (Left) & Activity (Right) -->
+        <div class="bottom-row">
+            <!-- Control Panel -->
+            <section class="card control-card" id="control-section">
+                <h2>PANEL DE COMANDO</h2>
+                <div class="control-actions">
+                    <div class="main-actions">
+                        <button id="btn-start" class="btn btn-emerald">START</button>
+                        <button id="btn-stop" class="btn btn-slate">STOP</button>
+                    </div>
+                    <div class="danger-actions">
+                        <button id="btn-kill" class="btn btn-danger">EMERGENCY KILL</button>
+                        <button id="btn-unlock" class="btn btn-warning">UNLOCK BOT</button>
+                    </div>
                 </div>
-            </div>
-        </section>
+                <div class="mode-selector-v2">
+                    <label>MODO DE RIESGO</label>
+                    <div class="mode-buttons">
+                        <button id="mode-normal" class="mode-btn active">NORMAL</button>
+                        <button id="mode-conservative" class="mode-btn">CONSERVADOR</button>
+                    </div>
+                </div>
+                <button id="btn-reset-manual" class="btn-manual-v2">VER MANUAL DEL OPERADOR</button>
+            </section>
 
-        <!-- Recent Activity -->
-        <section class="card activity-log" id="activity-section">
-            <h2>Actividad Reciente</h2>
-            <div id="trades-list" class="scroll-container">
-                <p class="placeholder-text">Esperando datos de ejecución...</p>
-            </div>
-        </section>
-
+            <!-- Recent Activity -->
+            <section class="card activity-card" id="activity-section">
+                <h2>HISTORIAL DE EJECUCIÓN</h2>
+                <div id="trades-list" class="activity-feed">
+                    <p class="placeholder-text">Sincronizando con el mercado...</p>
+                </div>
+            </section>
+        </div>
     </main>
-
-    <footer class="system-footer">
-        <p>MCrypto Trading Engine <span id="last-update"></span></p>
-    </footer>
 
     <script src="./auth.js?v=3.7"></script>
     <script src="./api.js?v=3.7"></script>
