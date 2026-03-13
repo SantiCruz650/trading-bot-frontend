@@ -213,6 +213,7 @@ function renderTrades(executions) {
             <span style="font-weight:700">${ex.ticker || 'ETH/USDT'}</span>
             <span>${Number(ex.amount).toFixed(4)}</span>
             <span>$${Number(ex.price).toLocaleString()}</span>
+            <span style="color: var(--text-secondary); font-size: 0.8rem;">${formatTime(ex.timestamp)}</span>
         </div>`).join('');
 }
 
